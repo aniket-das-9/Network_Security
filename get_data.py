@@ -25,17 +25,42 @@ class NetworkDataExtract():
         except Exception as e:
             raise NetworkSecurityException(e, sys)
         
-    def csv_to_json_convertor(self):
+    def csv_to_json_convertor(self,file_path):
         try:
-            pass
+            data = pd.read_csv(file_path)
+            data.reset_index(drop=True, inplace=True)
+            records = list(json.loads(data.T.to_json()).values())
+            return records
+            
+
         except Exception as e:
             raise NetworkSecurityException(e, sys)
         
-    def pushing_data_to_mongodb(self):
+    def pushing_data_to_mongodb(self,records,database,collection):
         try:
-            pass
+            self.records = records
+            self.database = database
+            self.collection = collection
+
+            self.mongo_client = pymongo.MongoClient(MONGO_DB_URL)
+
+            self.database = self.mongo_client[self.database]
+
+            self.collection = self.database[self.collection]
+
+            self.collection.insert_many(self.records)
+
+            return len(self.records)
+        
         except Exception as e:
             raise NetworkSecurityException(e, sys)
         
-    if __name__ == '__main__':
-        pass
+if __name__ == '__main__':
+    FILE_PATH = "./Network_Data/NetworkData.csv"
+    DATABASE = "Aniket"
+    COLLECTION = "NetworkData"
+    networkobj = NetworkDataExtract()
+    records = networkobj.csv_to_json_convertor(FILE_PATH)
+    numofrecords = networkobj.pushing_data_to_mongodb(records,DATABASE,COLLECTION)
+    print(numofrecords)
+    # print(records)
