@@ -26,7 +26,7 @@ class ModelTrainer:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
 
-    def perform_hyper_parameter_tunig(self):
+    def perform_hyper_parameter_tuning(self):
         pass
     
 
