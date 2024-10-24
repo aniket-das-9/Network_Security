@@ -31,9 +31,15 @@ from networksecurity.entity.artifact_entity import (
     ModelPusherArtifact
 )
 
+from networksecurity.cloud.s3_syncer import S3Sync
+from networksecurity.constant.training_pipeline import TRAINING_BUCKET_NAME
+from networksecurity.constant.training_pipeline import SAVED_MODEL_DIR
+
 class TrainingPipeline:
+    is_pipeline_running=False
     def __init__(self):
         self.training_pipeline_config = TrainingPipelineConfig()
+        self.s3_sync = S3Sync()
 
 
     def start_data_ingestion(self):
@@ -144,5 +150,12 @@ class TrainingPipeline:
             print(model_eval_artifact)
 
             model_pusher_artifact = self.start_model_pusher(model_eval_artifact)
+
+            TrainingPipeline.is_pipeline_running=False
+            self.sync_artifact_dir_to_s3()
+            self.sync_saved_model_dir_to_s3()
+
         except Exception as e:
+            self.sync_artifact_dir_to_s3()
+            TrainingPipeline.is_pipeline_running=False
             raise NetworkSecurityException(e,sys)

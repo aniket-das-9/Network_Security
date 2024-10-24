@@ -2,18 +2,10 @@ import sys
 import os
 
 import certifi
-ca = certifi.where()
+
 
 from dotenv import load_dotenv
-load_dotenv()
-mongo_db_url = os.getenv("MONGODB_URL_KEY")
-print(mongo_db_url)
 
-AWS_ACCESS_KEY_ID=os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY=os.getenv("AWS_SECRET_ACCESS_KEY")
-
-os.environ["AWS_ACCESS_KEY_ID"]=AWS_ACCESS_KEY_ID
-os.environ["AWS_SECRET_ACCESS_KEY"]=AWS_SECRET_ACCESS_KEY
 
 import pymongo
 
@@ -37,6 +29,18 @@ from networksecurity.constant.training_pipeline import SAVED_MODEL_DIR
 from networksecurity.utils.main_utils.utils import load_object
 
 from fastapi.templating import Jinja2Templates
+
+ca = certifi.where()
+load_dotenv()
+mongo_db_url = os.getenv("MONGODB_URL_KEY")
+print(mongo_db_url)
+
+AWS_ACCESS_KEY_ID=os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY=os.getenv("AWS_SECRET_ACCESS_KEY")
+
+os.environ["AWS_ACCESS_KEY_ID"]=AWS_ACCESS_KEY_ID
+os.environ["AWS_SECRET_ACCESS_KEY"]=AWS_SECRET_ACCESS_KEY
+
 templates = Jinja2Templates(directory="./templates")
 
 
@@ -72,7 +76,7 @@ async def train_route():
             raise NetworkSecurityException(e,sys)
     
 
-@app.post("/predict")
+"""@app.post("/predict")
 async def predict_route(request: Request,file: UploadFile = File(...)):
     try:
         df=pd.read_csv(file.file)
@@ -90,7 +94,7 @@ async def predict_route(request: Request,file: UploadFile = File(...)):
         return templates.TemplateResponse("table.html", {"request": request, "table": table_html})
         
     except Exception as e:
-            raise NetworkSecurityException(e,sys)
+            raise NetworkSecurityException(e,sys)"""
 
 """def main():
     try:
