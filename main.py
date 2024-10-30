@@ -96,12 +96,12 @@ async def predict_route(request: Request,file: UploadFile = File(...)):
     except Exception as e:
             raise NetworkSecurityException(e,sys)"""
 
-"""def main():
+'''def main():
     try:
         training_pipeline = TrainingPipeline()
         model = training_pipeline.run_pipeline(model_dir=SAVED_MODEL_DIR) 
     except Exception as e:
-            raise NetworkSecurityException(e,sys)"""
+            raise NetworkSecurityException(e,sys)'''
 
                
 if __name__=="__main__":
