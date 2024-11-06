@@ -9,12 +9,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 with DAG(
-    'network_security',
+    'network-training',
     default_args={'retries': 2},
     # [END default_args]
     description='network security pipeline',
     schedule_interval="@weekly",
-    start_date=pendulum.datetime(2024,10,24, tz="UTC"),
+    start_date=pendulum.datetime(2024,11,5, tz="UTC"),
     catchup=False,
     tags=['example'],
 ) as dag:
@@ -28,7 +28,7 @@ with DAG(
         
     
     def sync_artifact_to_s3_bucket(**kwargs):
-        bucket_name = "my-network-security"
+        bucket_name = "my-network-security-bucket"
         os.system(f"aws s3 sync /app/Artifacts s3://{bucket_name}/artifact")
         os.system(f"aws s3 sync /app/saved_models s3://{bucket_name}/saved_models")
 
