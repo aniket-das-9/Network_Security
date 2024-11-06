@@ -5,8 +5,8 @@ COPY . /app/
 WORKDIR /app/
 RUN pip3 install -r requirements.txt
 ENV AWS_DEFAULT_REGION = "us-east-1"
-ENV BUCKET_NAME="my-network-security"
-ENV PREDICTION_BUCKET_NAME="my-network-datasource"
+ENV BUCKET_NAME="my-network-security-bucket"
+ENV PREDICTION_BUCKET_NAME="my-network-datasource-bucket"
 ENV AIRFLOW_HOME="/app/airflow"
 ENV AIRFLOW_CORE_DAGBAG_IMPORT_TIMEOUT=1000
 ENV AIRFLOW_CORE_ENABLE_XCOM_PICKLING=True
